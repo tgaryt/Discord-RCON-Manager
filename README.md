@@ -4,9 +4,11 @@
 This Discord bot was created by [tgaryt](https://ugc-gaming.net/index.php?members/ryt.3/) for [UGC-Gaming.NET](https://ugc-gaming.net) and is designed specifically for managing Source game servers.
 
 ## Requirements
-- Python 3.7.3
-- discord.py 1.7.3
-- python-valve 0.2.1
+
+- **Python:** Version 3.7.3
+- **discord.py:** Version 1.7.3
+- **python-valve:** Version 0.2.1
+- **Discord Bot Configuration:** Ensure that the bot has all Privileged Gateway Intents enabled.
 
 ## Installation
 
