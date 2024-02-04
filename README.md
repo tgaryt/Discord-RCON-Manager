@@ -21,7 +21,7 @@ python3 -m venv rcon
 # Activate the virtual environment
 source rcon/bin/activate
 
-# Install the required Python libraries manually
+# Install the required Python libraries
 pip install discord.py
 pip install python-valve
 
