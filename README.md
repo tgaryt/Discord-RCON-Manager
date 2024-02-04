@@ -30,7 +30,7 @@ nohup python rcon-manager.py &
 
 # Deactivate the virtual environment when done
 deactivate
-
+```
 ## Commands
 
 ### RCON Command
