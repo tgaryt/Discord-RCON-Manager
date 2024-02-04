@@ -20,16 +20,23 @@ config.read('config.ini')
 TOKEN = config['Bot']['Token']
 RCON_PASSWORD = config['Bot']['RconPassword']
 LOOP_INTERVAL = int(config['Bot']['LoopInterval'])
-AUTO_FILE_PATHS = config['Bot']['AutoFilePaths'].split(',')
+AUTO_FILE_PATHS = [os.path.join('groups', file_name.strip()) for file_name in config['Bot']['AutoFilePaths'].split(',')]
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 def create_auto_files():
     for file_path in AUTO_FILE_PATHS:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
         if not os.path.exists(file_path):
             with open(file_path, 'w') as file:
                 file.write('[servers]\n\n')
                 file.write('[commands]\n')
+
+        all_file_path = os.path.join('groups', 'all.txt')
+    if not os.path.exists(all_file_path):
+        os.makedirs(os.path.dirname(all_file_path), exist_ok=True)  # Ensure the directory exists
+        with open(all_file_path, 'w') as file:
+            file.write('[servers]\n')
 
     log_file_path = 'rcon.log'
     if not os.path.exists(log_file_path):
