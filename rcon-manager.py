@@ -36,11 +36,6 @@ def create_auto_files():
         with open(log_file_path, 'w'):
             pass
 
-    all_file_path = 'all.txt'
-    if not os.path.exists(all_file_path):
-        with open(all_file_path, 'w') as file:
-            file.write('[servers]\n')
-
 def read_servers_from_file(file_path):
     with open(file_path, 'r') as file:
         servers = [line.strip().split() for line in file.readlines()]
@@ -147,7 +142,7 @@ async def on_ready():
 
 @bot.command()
 async def rcon(ctx, server_group, *, command):
-    file_path = f'{server_group}.txt'
+    file_path = f'groups/{server_group}.txt'
 
     if not server_group or not command:
         await ctx.send("Usage: !rcon [server_group] [command]")
@@ -195,7 +190,7 @@ async def rcon(ctx, server_group, *, command):
 
 @bot.command()
 async def add_sv(ctx, server_group, ip, port):
-    file_path = f'{server_group}.txt'
+    file_path = f'groups/{server_group}.txt'
 
     if not server_group or not ip or not port:
         await ctx.send("Usage: !add_sv [server_group] [ip] [port]")
@@ -217,7 +212,7 @@ async def add_sv(ctx, server_group, ip, port):
 
 @bot.command()
 async def rm_sv(ctx, server_group, ip, port):
-    file_path = f'{server_group}.txt'
+    file_path = f'groups/{server_group}.txt'
 
     if not server_group or not ip or not port:
         await ctx.send("Usage: !rm_sv [server_group] [ip] [port]")
@@ -239,7 +234,7 @@ async def rm_sv(ctx, server_group, ip, port):
 
 @bot.command()
 async def add_cmd(ctx, file_name, command_name, *command_value):
-    file_path = f'{file_name}.txt'
+    file_path = f'groups/{file_name}.txt'
 
     if file_path not in AUTO_FILE_PATHS:
         await ctx.send(f"Command modification is only allowed for files in {', '.join(AUTO_FILE_PATHS)}")
@@ -273,7 +268,7 @@ async def add_cmd(ctx, file_name, command_name, *command_value):
 
 @bot.command()
 async def rm_cmd(ctx, file_name, command_name):
-    file_path = f'{file_name}.txt'
+    file_path = f'groups/{file_name}.txt'
 
     if file_path not in AUTO_FILE_PATHS:
         await ctx.send(f"Command modification is only allowed for files in {', '.join(AUTO_FILE_PATHS)}")
