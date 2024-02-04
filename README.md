@@ -28,7 +28,7 @@ pip install python-valve
 # Run the bot in the background using nohup
 nohup python rcon-manager.py &
 
-# Deactivate the virtual environment when done
+# Deactivate the virtual environment
 deactivate
 ```
 ## Commands
