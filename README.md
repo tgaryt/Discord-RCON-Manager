@@ -15,6 +15,9 @@ sudo apt install python3 python3-pip
 # Navigate to the project directory
 cd your-bot-directory
 
+# Install Python virtual environment
+sudo apt install python3-venv
+
 # Create a virtual environment
 python3 -m venv rcon
 
