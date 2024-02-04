@@ -10,7 +10,7 @@ import configparser
 
 intents = discord.Intents.default()
 intents.all()
-intents.message_content = True
+intents.messages = True
 intents.presences = True
 intents.members = True
 
