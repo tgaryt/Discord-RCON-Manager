@@ -1,7 +1,7 @@
 # Discord RCON Manager
 
 ## Introduction
-This Discord bot was created by tgaryt for UGC Gaming (ugc-gaming.net) and is designed specifically for managing Source game servers.
+This Discord bot was created by tgaryt for [UGC Gaming](https://ugc-gaming.net) and is designed specifically for managing Source game servers.
 
 ## Commands
 
