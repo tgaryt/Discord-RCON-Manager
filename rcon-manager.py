@@ -209,12 +209,25 @@ async def add_sv(ctx, server_group, ip, port):
         await ctx.send(f'Server `{ip}:{port}` already exists in server group `{server_group}`')
     else:
         servers.append((ip, port))
+
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+
+        servers_index = 0
+        for i, line in enumerate(lines):
+            if line.startswith('[servers]'):
+                servers_index = i
+                break
+            elif line.startswith('['):
+                servers_index = i
+                lines.insert(i, '[servers]\n')
+                break
+
+        lines.insert(servers_index + 1, f'{ip} {port}\n')
+
         with open(file_path, 'w') as file:
-            file.write('[servers]\n')
-            for server in servers:
-                file.write(f'{server[0]} {server[1]}\n')
-            for command in commands:
-                file.write(f'{command}\n')
+            file.writelines(lines)
+
         await ctx.send(f'Server `{ip}:{port}` added to server group `{server_group}`')
 
 @bot.command()
