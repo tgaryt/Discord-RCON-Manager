@@ -3,6 +3,34 @@
 ## Introduction
 This Discord bot was created by [tgaryt](https://ugc-gaming.net/index.php?members/ryt.3/) for [UGC-Gaming.NET](https://ugc-gaming.net) and is designed specifically for managing Source game servers.
 
+## Installation
+
+```bash
+# Update package lists
+sudo apt update
+
+# Install Python 3 and pip
+sudo apt install python3 python3-pip
+
+# Navigate to the project directory
+cd your-bot-directory
+
+# Create a virtual environment
+python3 -m venv rcon
+
+# Activate the virtual environment
+source rcon/bin/activate
+
+# Install the required Python libraries manually
+pip install discord.py
+pip install python-valve
+
+# Run the bot in the background using nohup
+nohup python rcon-manager.py &
+
+# Deactivate the virtual environment when done
+deactivate
+
 ## Commands
 
 ### RCON Command
