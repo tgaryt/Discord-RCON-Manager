@@ -37,7 +37,7 @@ deactivate
 - **Command**: `!rcon [server_group] [command]`
   - Sends an RCON command to a specified server group.
   - Example-1: `!rcon all sm_reloadadmins
-  - Example-2: `!rcon all sv_password "rytpro"`
+  - Example-2: `!rcon all sv_password "tgaryt"`
 
 ### Server Management
 - **Add Server**: `!add_sv [server_group] [ip] [port]`
