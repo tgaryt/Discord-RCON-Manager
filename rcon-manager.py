@@ -242,12 +242,25 @@ async def rm_sv(ctx, server_group, ip, port):
 
     if (ip, port) in servers:
         servers.remove((ip, port))
+
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+
+        servers_start_index = 0
+        servers_end_index = len(lines)
+        for i, line in enumerate(lines):
+            if line.startswith('[servers]'):
+                servers_start_index = i + 1
+            elif line.startswith('['):
+                if servers_start_index != 0:
+                    servers_end_index = i
+                    break
+
+        updated_lines = lines[:servers_start_index] + [f'{ip} {port}\n' for ip, port in servers] + lines[servers_end_index:]
+        
         with open(file_path, 'w') as file:
-            file.write('[servers]\n')
-            for server in servers:
-                file.write(f'{server[0]} {server[1]}\n')
-            for command in commands:
-                file.write(f'{command}\n')
+            file.writelines(updated_lines)
+
         await ctx.send(f'Server `{ip}:{port}` removed from server group `{server_group}`')
     else:
         await ctx.send(f'Server `{ip}:{port}` does not exist in server group `{server_group}`')
