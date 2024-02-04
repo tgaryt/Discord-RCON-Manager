@@ -243,7 +243,7 @@ async def rm_sv(ctx, server_group, ip, port):
 async def add_cmd(ctx, file_name, command_name, *command_value):
     file_path = f'groups/{file_name}.txt'
 
-    if file_path not in AUTO_FILE_PATHS:
+    if os.path.basename(file_path) not in [os.path.basename(path) for path in AUTO_FILE_PATHS]:
         await ctx.send(f"Command modification is only allowed for files in {', '.join(AUTO_FILE_PATHS)}")
         return
 
@@ -277,7 +277,7 @@ async def add_cmd(ctx, file_name, command_name, *command_value):
 async def rm_cmd(ctx, file_name, command_name):
     file_path = f'groups/{file_name}.txt'
 
-    if file_path not in AUTO_FILE_PATHS:
+    if os.path.basename(file_path) not in [os.path.basename(path) for path in AUTO_FILE_PATHS]:
         await ctx.send(f"Command modification is only allowed for files in {', '.join(AUTO_FILE_PATHS)}")
         return
 
