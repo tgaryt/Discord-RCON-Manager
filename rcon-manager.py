@@ -9,7 +9,7 @@ import asyncio
 import configparser
 
 intents = discord.Intents.default()
-intents.all()
+intents = discord.Intents.all()
 intents.messages = True
 intents.presences = True
 intents.members = True
