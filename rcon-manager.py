@@ -9,8 +9,8 @@ import asyncio
 import configparser
 
 intents = discord.Intents.default()
-intents = discord.Intents.all()
-intents.messages = True
+intents.all()
+intents.message_content = True
 intents.presences = True
 intents.members = True
 
@@ -34,7 +34,7 @@ def create_auto_files():
 
         all_file_path = os.path.join('groups', 'all.txt')
     if not os.path.exists(all_file_path):
-        os.makedirs(os.path.dirname(all_file_path), exist_ok=True)  # Ensure the directory exists
+        os.makedirs(os.path.dirname(all_file_path), exist_ok=True)
         with open(all_file_path, 'w') as file:
             file.write('[servers]\n')
 
@@ -144,7 +144,6 @@ async def on_message(message):
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
     automatic_rcon.start()
-    reload_config.start()
     create_auto_files()
 
 @bot.command()
@@ -324,15 +323,5 @@ async def rm_cmd(ctx, file_name, command_name):
             file.write(f'{updated_command}\n')
 
     await ctx.send(f'Command `{command_name}` removed from the configuration file `{file_name}.txt`.')
-
-@tasks.loop(seconds=60)
-async def reload_config():
-    global RCON_PASSWORD, LOOP_INTERVAL, AUTO_FILE_PATHS
-
-    config.read('config.ini')
-    RCON_PASSWORD = config['Bot']['RconPassword']
-    AUTO_FILE_PATHS = config['Bot']['AutoFilePaths'].split(',')
-    LOOP_INTERVAL = int(config['Bot']['LoopInterval'])
-    print(f"Config file has been reloaded.")
 
 bot.run(TOKEN)
