@@ -131,14 +131,13 @@ async def automatic_rcon():
 
 @bot.event
 async def on_message(message):
-    if message.author.bot or isinstance(message.channel, discord.DMChannel):
+    if message.author.bot:
         return
 
-    if message.content.startswith(bot.command_prefix):
-        print(f"Received Command: {message.content} in channel: {message.channel}")
-        await bot.process_commands(message)
-    else:
+    if isinstance(message.channel, discord.DMChannel):
         return
+
+    await bot.process_commands(message)
 
 @bot.event
 async def on_ready():
