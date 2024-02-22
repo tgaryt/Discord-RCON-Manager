@@ -171,6 +171,11 @@ async def rcon(ctx, server_group, *, command):
         except valve.rcon.RCONError as e:
             failure_count += 1
             failure_servers.append((ip, port))
+            print(f"Failed to connect to {ip}:{port} - {e}")
+        except ConnectionRefusedError as e:
+            print(f"Connection refused for {ip}:{port} - {e}")
+        except Exception as e:
+            print(f"An error occurred for {ip}:{port} - {e}")
 
     embed_summary = Embed(
         title=f'RCON Command Summary - {server_group}',
