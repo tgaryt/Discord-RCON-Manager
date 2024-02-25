@@ -79,4 +79,4 @@ The bot automatically generates configuration files based on the specified `Auto
 The bot automatically reloads its configuration every minute. There is no need to restart the bot unless the token is changed.
 
 ## License
-This project is licensed under the [MIT License](LICENSE.txt).
+This project is licensed under the [MIT License](LICENSE).
