@@ -7,6 +7,8 @@ from datetime import datetime
 import os
 import asyncio
 import configparser
+import mysql.connector
+import aiohttp
 
 intents = discord.Intents.default()
 intents.all()
@@ -327,5 +329,67 @@ async def rm_cmd(ctx, file_name, command_name):
             file.write(f'{updated_command}\n')
 
     await ctx.send(f'Command `{command_name}` removed from the configuration file `{file_name}.txt`.')
+
+@bot.command(name='rcon-command')
+async def rcon_command(ctx, *, command):
+    db_connection = mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASS,
+        database=DB_NAME
+    )
+    cursor = db_connection.cursor()
+
+    cursor.execute(f'SELECT ip, port FROM {DB_TABLE}')
+    servers = cursor.fetchall()
+
+    command_responses = {}
+
+    async with aiohttp.ClientSession() as session:
+        for ip, port in servers:
+            try:
+                with valve.rcon.RCON((ip, port), RCON_PASSWORD) as rcon:
+                    response = rcon.execute(command)
+                command_responses[(ip, port)] = response.text
+            except Exception as e:
+                command_responses[(ip, port)] = f"Error: {str(e)}"
+
+    cursor.close()
+    db_connection.close()
+
+    extracted_responses = {}
+    for ip_port, response in command_responses.items():
+        extracted_response = {}
+        for line in response.split("\n"):
+            if "=" in line:
+                key_value_pair = line.strip().split("=", 1)
+                if len(key_value_pair) == 2:
+                    key, value = key_value_pair
+                    key = key.strip().strip('"')
+                    value = value.strip().strip('"')
+                    extracted_response[key] = value
+        extracted_responses[ip_port] = extracted_response
+
+    response_counts = {}
+    for response in extracted_responses.values():
+        response_str = '|'.join([f"{k}={v}" for k, v in response.items()])
+        response_counts[response_str] = response_counts.get(response_str, 0) + 1
+
+    most_common_response = max(response_counts, key=response_counts.get)
+
+    different_responses = {}
+    for ip_port, response in extracted_responses.items():
+        response_str = '|'.join([f"{k}={v}" for k, v in response.items()])
+        if response_str != most_common_response:
+            different_responses[ip_port] = response
+
+    if len(different_responses) == 0:
+        response_str = f'All servers have "{command}" set to {most_common_response}.'
+    else:
+        response_str = f'Most servers have "{command}" set to {most_common_response}, except for:\n'
+        for ip_port, response in different_responses.items():
+            response_str += f"- {ip_port[0]}:{ip_port[1]} ({', '.join([f'{key}={value}' for key, value in response.items()])})\n"
+
+    await ctx.send(response_str)
 
 bot.run(TOKEN)
