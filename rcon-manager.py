@@ -353,6 +353,8 @@ async def rcon_command(ctx, *, command):
 
     async with aiohttp.ClientSession() as session:
         for ip, port in servers:
+            if ip == '0.0.0.0':
+                continue
             try:
                 with valve.rcon.RCON((ip, port), RCON_PASSWORD) as rcon:
                     response = rcon.execute(command)
