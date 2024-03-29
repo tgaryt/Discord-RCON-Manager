@@ -24,6 +24,12 @@ RCON_PASSWORD = config['Bot']['RconPassword']
 LOOP_INTERVAL = int(config['Bot']['LoopInterval'])
 AUTO_FILE_PATHS = [os.path.join('groups', file_name.strip()) for file_name in config['Bot']['AutoFilePaths'].split(',')]
 
+DB_HOST = config.get('MySQL', 'hostname')
+DB_USER = config.get('MySQL', 'username')
+DB_PASS = config.get('MySQL', 'password')
+DB_NAME = config.get('MySQL', 'database')
+DB_TABLE = config.get('MySQL', 'table')
+
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 def create_auto_files():
